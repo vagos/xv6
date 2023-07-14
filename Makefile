@@ -178,7 +178,6 @@ USER_PROGS=\
 	usertests\
 	wc\
 	zombie\
-	test-getread\
 
 UPROGS := $(addprefix fs/,$(USER_PROGS))
 
