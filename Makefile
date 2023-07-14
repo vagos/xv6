@@ -162,22 +162,25 @@ out/mkfs: tools/mkfs.c include/fs.h
 # http://www.gnu.org/software/make/manual/html_node/Chained-Rules.html
 .PRECIOUS: uobj/%.o
 
-UPROGS=\
-	fs/cat\
-	fs/echo\
-	fs/forktest\
-	fs/grep\
-	fs/init\
-	fs/kill\
-	fs/ln\
-	fs/ls\
-	fs/mkdir\
-	fs/rm\
-	fs/sh\
-	fs/stressfs\
-	fs/usertests\
-	fs/wc\
-	fs/zombie\
+USER_PROGS=\
+	cat\
+	echo\
+	forktest\
+	grep\
+	init\
+	kill\
+	ln\
+	ls\
+	mkdir\
+	rm\
+	sh\
+	stressfs\
+	usertests\
+	wc\
+	zombie\
+	test-getread\
+
+UPROGS := $(addprefix fs/,$(USER_PROGS))
 
 fs/README: README
 	@mkdir -p fs
