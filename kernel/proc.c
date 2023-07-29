@@ -198,6 +198,7 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
+  p->inuse = 0;
   sched();
   panic("zombie exit");
 }
@@ -280,7 +281,12 @@ scheduler(void)
       switchuvm(p);
       p->state = RUNNING;
       p->inuse = 1;
+      const int tickstart = ticks;
+      
       swtch(&cpu->scheduler, proc->context);
+    
+      p->ticks += ticks - tickstart;
+    
       switchkvm();
       // Process is done running for now.
       // It should have changed its p->state before coming back.

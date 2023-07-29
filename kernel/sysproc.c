@@ -61,7 +61,6 @@ int sys_getpinfo(void)
         pstat->pid[i] = p->pid;
         pstat->ticks[i] = p->ticks;
         pstat->tickets[i] = p->tickets;
-        pstat->name[i] = p->name;
     }
     release(&ptable.lock);
     return 0;
