@@ -7,10 +7,7 @@
 #include "proc.h"
 #include "spinlock.h"
 
-struct {
-  struct spinlock lock;
-  struct proc proc[NPROC];
-} ptable;
+struct ptable_type ptable; /* initialize process table */
 
 static struct proc *initproc;
 
@@ -282,9 +279,9 @@ scheduler(void)
       proc = p;
       switchuvm(p);
       p->state = RUNNING;
+      p->inuse = 1;
       swtch(&cpu->scheduler, proc->context);
       switchkvm();
-
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       proc = 0;
@@ -461,6 +458,6 @@ procdump(void)
     }
     cprintf("\n");
   }
+
+    cprintf("\n\n");
 }
-
-

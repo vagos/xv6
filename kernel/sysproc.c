@@ -35,6 +35,38 @@ sys_kill(void)
   return kill(pid);
 }
 
+int sys_getpinfo(void) 
+{
+    struct pstat *pstat;
+
+    argptr(0, (void*)&pstat, sizeof(*pstat));
+
+    if (pstat == 0) {
+        return -1;
+    }
+
+    acquire(&ptable.lock);
+    struct proc *p;
+    int i;
+    for (p = ptable.proc; p != &(ptable.proc[NPROC]); p++) 
+    {
+        i = p - ptable.proc;
+
+        /* if (p->state == UNUSED) { */
+        /*     pstat->inuse[i] = 0; */
+        /* } else { */
+        /*     pstat->inuse[i] = 1; */
+        /* } */
+        pstat->inuse[i] = p->inuse;
+        pstat->pid[i] = p->pid;
+        pstat->ticks[i] = p->ticks;
+        pstat->tickets[i] = p->tickets;
+        pstat->name[i] = p->name;
+    }
+    release(&ptable.lock);
+    return 0;
+}
+
 int
 sys_getpid(void)
 {
