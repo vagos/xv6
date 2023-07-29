@@ -181,11 +181,13 @@ exit(void)
 
   iput(proc->cwd);
   proc->cwd = 0;
+  proc->inuse = 0;
 
   acquire(&ptable.lock);
 
   // Parent might be sleeping in wait().
   wakeup1(proc->parent);
+
 
   // Pass abandoned children to init.
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -198,8 +200,7 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   proc->state = ZOMBIE;
-  p->inuse = 0;
-  sched();
+   sched();
   panic("zombie exit");
 }
 
