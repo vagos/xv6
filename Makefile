@@ -166,6 +166,7 @@ USER_PROGS=\
 	cat\
 	echo\
 	forktest\
+	schedtest\
 	grep\
 	init\
 	kill\
