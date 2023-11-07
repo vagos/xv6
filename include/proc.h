@@ -105,9 +105,7 @@ struct proc {
 //   fixed-size stack
 //   expandable heap
 
-struct ptable_type {
+struct ptable {
   struct spinlock lock;
   struct proc proc[NPROC];
-}; 
-
-extern struct ptable_type ptable;
+};

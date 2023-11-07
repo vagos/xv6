@@ -6,6 +6,8 @@
 #include "mmu.h"
 #include "proc.h"
 
+extern struct ptable ptable;
+
 int
 sys_fork(void)
 {
