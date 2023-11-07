@@ -44,6 +44,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->ticks = 0;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -282,11 +283,8 @@ scheduler(void)
       switchuvm(p);
       p->state = RUNNING;
       p->inuse = 1;
-      const int tickstart = ticks;
-      
+
       swtch(&cpu->scheduler, proc->context);
-    
-      p->ticks += ticks - tickstart;
     
       switchkvm();
       // Process is done running for now.
