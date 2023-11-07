@@ -6,6 +6,11 @@
 #include "mmu.h"
 #include "proc.h"
 
+extern struct {
+  struct spinlock lock;
+  struct proc proc[NPROC];
+} ptable;
+
 int
 sys_fork(void)
 {
