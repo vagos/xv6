@@ -53,8 +53,9 @@ trap(struct trapframe *tf)
     if(cpu->id == 0){
       acquire(&tickslock);
       ticks++;
-      if (proc != 0)
+      if (proc && (tf->cs & 3) == 3) {
           proc->ticks++;
+      }
       wakeup(&ticks);
       release(&tickslock);
     }
